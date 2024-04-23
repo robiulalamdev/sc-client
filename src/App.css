@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+body {
+  background-color: #f5f5f4;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #0f172a;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+}
+
+input[type="radio"] {
+  accent-color: #4f46e5;
+}
+
+.sidebar .active {
+  position: relative;
+}
+
+.sidebar .active::before {
+  position: absolute;
+  content: "";
+  background-color: #4f46e5;
+  border-radius: 2px;
+  width: 4px;
+  height: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+
+.no_scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+select.special {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 20px;
+  background-image: url("../src/assets/select-arrow.svg");
+  background-position: right 2% center;
+  background-repeat: no-repeat;
+}
+
+.stock_video iframe a,
+.player a {
+  display: none !important;
+}
+
+.ControlBar_module_progressBarAndButtons__ea0d6863.ControlBar_module_noProgressBar__ea0d6863 {
+  display: none !important;
+}
+
+.vimeo-player .react-player__play-icon {
+  display: none !important;
+}
+
+.vimeo-player:hover {
+  transform: scale(1.5);
+}
+
+.custom-confirm-button-class {
+  background-color: #4f46e5 !important; /* Your desired background color */
+  color: #ffffff; /* Your desired text color */
+  outline: 0 !important;
+  border-radius: 9999px !important;
+  padding-left: 35px !important;
+  padding-right: 35px !important;
+}
+
+.custom-confirm-button-class:focus {
+  outline: none !important;
+  box-shadow: unset !important;
+}
+
+.payment_input {
+  /* height: 50px; */
+  border-radius: 5px;
+  border: 0.7px solid rgba(0, 0, 0, 0.02);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 15px;
+  width: 100%;
+  /* display: flex;
+  align-items: center; */
+}
+.payment_input::placeholder {
+  color: #9ca3a9;
+  font-size: 14px;
+}

@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .website_contianer {
+        @apply container max-w-[1440px] w-full px-5
+    }
+
+    .brief_input {
+        @apply px-4 py-3.5 border w-full shadow-sm rounded-lg
+    }
+
+    .primary_btn {
+        @apply py-3 px-6 bg-indigo-600 rounded-full text-white text-base font-semibold hover:bg-indigo-500 transition-all duration-300 ease-in
+    }
+}
+
+.myworktable tbody tr:last-child td {
+    border-bottom-width: 0;
+}
+
+.activity_card:last-child {
+    border-bottom-width: 0;
+}
