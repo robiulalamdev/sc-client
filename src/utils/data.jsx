@@ -389,6 +389,15 @@ export const quickOptions = [
   "Something else",
 ];
 
+export const notificationPics = {
+  accept: accepted,
+  alert: alert,
+  rejected: rejected,
+  premium: premium,
+  paid: premium,
+  exported: accepted,
+};
+
 export const notifications = [
   {
     date: "2024-03-05",

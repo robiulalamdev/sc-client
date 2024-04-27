@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import close from "../../assets/close.svg";
-import { notifications } from "../../utils/data";
+import { notificationPics, notifications } from "../../utils/data";
 import useLoading from "../../hooks/useLoading";
 import Loading from "../Loading";
+import { useMyNotificationsQuery } from "../../features/notifications/notificationsApi";
 
 const Notification = ({ setShowNotification, notificationRef }) => {
-  const { isLoading } = useLoading();
+  const [meta, setMeta] = useState({
+    currentPage: 1,
+    limit: 6,
+    totalPages: 0,
+    totalCount: 0,
+  });
+  const { data, isLoading } = useMyNotificationsQuery(meta);
+  const [notifications, setNotifications] = useState([]);
+  // const { isLoading } = useLoading();
   const [displayCount, setDisplayCount] = useState(1);
+
   const formatDateTitle = (date) => {
     const today = new Date();
     const yesterday = new Date();
@@ -25,8 +35,34 @@ const Notification = ({ setShowNotification, notificationRef }) => {
     }
   };
   const handleLoadMore = () => {
-    setDisplayCount(displayCount + 1);
+    setMeta({
+      currentPage: meta?.currentPage + 1,
+      limit: 6,
+      totalPages: meta?.totalPages,
+      totalCount: meta?.totalCount,
+    });
+    // setDisplayCount(displayCount + 1);
   };
+
+  useMemo(() => {
+    if (meta?.currentPage === 1) {
+      if (data?.data?.notificationsList?.length > 0) {
+        setNotifications(data?.data?.notificationsList);
+      }
+      if (data?.data?.meta_data) {
+        setMeta(data?.data?.meta_data);
+      }
+    }
+
+    if (meta?.currentPage > 1) {
+      if (data?.data?.notificationsList?.length > 0) {
+        setNotifications([...notifications, ...data.data.notificationsList]);
+      }
+      if (data?.data?.meta_data) {
+        setMeta(data?.data?.meta_data);
+      }
+    }
+  }, [data?.data]);
 
   return (
     <div
@@ -44,7 +80,7 @@ const Notification = ({ setShowNotification, notificationRef }) => {
       ) : (
         <div>
           {notifications.length > 0 ? (
-            notifications.slice(0, displayCount).map((data, index) => (
+            notifications?.map((data, index) => (
               <div key={index}>
                 <div className="flex gap-4 items-center mb-5">
                   <p className="text-slate-500 text-sm font-semibold whitespace-nowrap">
@@ -52,27 +88,46 @@ const Notification = ({ setShowNotification, notificationRef }) => {
                   </p>
                   <div className="border-b w-full"></div>
                 </div>
-                {data.lists.length > 0 &&
+                {data.lists?.length > 0 &&
                   data.lists.map((list, listIndex) => (
                     <div
                       key={listIndex}
                       className="flex items-start gap-4 mb-5"
                     >
-                      <img src={list.pic} alt="" />
+                      {}
+                      <img
+                        src={
+                          (list?.type === "Exported Project" &&
+                            notificationPics.exported) ||
+                          (list?.type === "Project Accepted" &&
+                            notificationPics.accept) ||
+                          (list?.type === "Event Alert" &&
+                            notificationPics.alert) ||
+                          (list?.type === "Project Rejection" &&
+                            notificationPics.rejected) ||
+                          (list?.type === "Unload Premium Feature" &&
+                            notificationPics.premium) ||
+                          (list?.type === "Paid Successful" &&
+                            notificationPics.paid) ||
+                          (list?.type === "Exported Project" &&
+                            notificationPics.exported)
+                        }
+                        alt=""
+                      />
                       <div>
                         <div className="flex items-center gap-2 justify-between">
-                          <p>{list.title}</p>
-                          {list.new && (
+                          <p>{list.type}</p>
+                          {/* {list.new && (
                             <button className="text-xs text-white py-[1px] px-2 rounded-[32px] bg-[#E84E4E]">
                               <span className="inline-block w-2 h-2 rounded-full bg-white mr-1"></span>
                               New
                             </button>
-                          )}
+                          )} */}
                         </div>
                         <p
-                          dangerouslySetInnerHTML={{ __html: list.description }}
+                          dangerouslySetInnerHTML={{ __html: list.detailes }}
                         />
-                        <p>{data.time}</p>
+                        <p>{data.createdAt}</p>
                       </div>
                     </div>
                   ))}
@@ -81,12 +136,18 @@ const Notification = ({ setShowNotification, notificationRef }) => {
           ) : (
             <p>There is no data</p>
           )}
-          <button
-            onClick={handleLoadMore}
-            className="rounded-full w-full border py-2 pr-4 pl-2 text-base font-medium"
-          >
-            Load More
-          </button>
+          {notifications?.length > 0 && (
+            <>
+              {meta?.totalPages > meta?.currentPage && (
+                <button
+                  onClick={handleLoadMore}
+                  className="rounded-full w-full border py-2 pr-4 pl-2 text-base font-medium"
+                >
+                  Load More
+                </button>
+              )}
+            </>
+          )}
         </div>
       )}
     </div>

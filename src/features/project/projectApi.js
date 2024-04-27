@@ -16,7 +16,13 @@ export const projectApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ["Project", "AllProjects", "UserProjects", "Videos"],
+      invalidatesTags: [
+        "Project",
+        "AllProjects",
+        "UserProjects",
+        "Videos",
+        "notifications",
+      ],
     }),
 
     getProjectDetails: builder.query({

@@ -21,6 +21,7 @@ export const apiSlice = createApi({
     "UserProjects",
     "UserContactMessage",
     "brand-kit",
+    "notifications",
   ],
   endpoints: (builder) => ({}),
 });
