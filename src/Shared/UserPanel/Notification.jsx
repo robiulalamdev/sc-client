@@ -1,22 +1,16 @@
-import { useMemo, useState } from "react";
+/* eslint-disable react/prop-types */
 import close from "../../assets/close.svg";
-import { notificationPics, notifications } from "../../utils/data";
-import useLoading from "../../hooks/useLoading";
+import { notificationPics } from "../../utils/data";
 import Loading from "../Loading";
-import { useMyNotificationsQuery } from "../../features/notifications/notificationsApi";
 
-const Notification = ({ setShowNotification, notificationRef }) => {
-  const [meta, setMeta] = useState({
-    currentPage: 1,
-    limit: 6,
-    totalPages: 0,
-    totalCount: 0,
-  });
-  const { data, isLoading } = useMyNotificationsQuery(meta);
-  const [notifications, setNotifications] = useState([]);
-  // const { isLoading } = useLoading();
-  const [displayCount, setDisplayCount] = useState(1);
-
+const Notification = ({
+  setShowNotification,
+  notificationRef,
+  meta,
+  notifications,
+  isLoading,
+  handleLoadMore,
+}) => {
   const formatDateTitle = (date) => {
     const today = new Date();
     const yesterday = new Date();
@@ -34,35 +28,6 @@ const Notification = ({ setShowNotification, notificationRef }) => {
       return date;
     }
   };
-  const handleLoadMore = () => {
-    setMeta({
-      currentPage: meta?.currentPage + 1,
-      limit: 6,
-      totalPages: meta?.totalPages,
-      totalCount: meta?.totalCount,
-    });
-    // setDisplayCount(displayCount + 1);
-  };
-
-  useMemo(() => {
-    if (meta?.currentPage === 1) {
-      if (data?.data?.notificationsList?.length > 0) {
-        setNotifications(data?.data?.notificationsList);
-      }
-      if (data?.data?.meta_data) {
-        setMeta(data?.data?.meta_data);
-      }
-    }
-
-    if (meta?.currentPage > 1) {
-      if (data?.data?.notificationsList?.length > 0) {
-        setNotifications([...notifications, ...data.data.notificationsList]);
-      }
-      if (data?.data?.meta_data) {
-        setMeta(data?.data?.meta_data);
-      }
-    }
-  }, [data?.data]);
 
   return (
     <div

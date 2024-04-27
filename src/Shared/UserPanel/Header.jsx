@@ -5,7 +5,7 @@ import message from "../../assets/message-question.svg";
 import help from "../../assets/help-black.svg";
 import notification from "../../assets/notification.svg";
 import notificationActive from "../../assets/notification-active.svg";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Notification from "./Notification";
 import Credit from "./Credit";
 import Help from "./Help";
@@ -13,6 +13,7 @@ import ProfileActive from "./ProfileActive";
 import ProfileDropdown from "./ProfileDropdown";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import { useSelector } from "react-redux";
+import { useMyNotificationsQuery } from "../../features/notifications/notificationsApi";
 
 const Header = ({ user }) => {
   const [showNotification, setShowNotification] = useState(false);
@@ -20,10 +21,50 @@ const Header = ({ user }) => {
   const [showHelp, setShowHelp] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
+  const [meta, setMeta] = useState({
+    currentPage: 1,
+    limit: 6,
+    totalPages: 0,
+    totalCount: 0,
+  });
+
+  const { data, isLoading } = useMyNotificationsQuery(meta);
+  const [notifications, setNotifications] = useState([]);
+
   const notificationRef = useRef(null);
   const creditRef = useRef(null);
   const helpRef = useRef(null);
   const profileRef = useRef(null);
+
+  const handleLoadMore = () => {
+    setMeta({
+      currentPage: meta?.currentPage + 1,
+      limit: 6,
+      totalPages: meta?.totalPages,
+      totalCount: meta?.totalCount,
+    });
+    // setDisplayCount(displayCount + 1);
+  };
+
+  useMemo(() => {
+    if (meta?.currentPage === 1) {
+      if (data?.data?.notificationsList?.length > 0) {
+        setNotifications(data?.data?.notificationsList);
+      }
+      if (data?.data?.meta_data) {
+        setMeta(data?.data?.meta_data);
+      }
+    }
+
+    if (meta?.currentPage > 1) {
+      if (data?.data?.notificationsList?.length > 0) {
+        setNotifications([...notifications, ...data.data.notificationsList]);
+      }
+      if (data?.data?.meta_data) {
+        setMeta(data?.data?.meta_data);
+      }
+    }
+  }, [data?.data]);
 
   useOutsideClick(notificationRef, () => setShowNotification(false));
   useOutsideClick(creditRef, () => setShowCredit(false));
@@ -73,7 +114,7 @@ const Header = ({ user }) => {
             className="relative"
           >
             <button className="absolute -top-1 -right-1 border-2 border-slate-50 bg-red-600 px-[5px] rounded-full text-white text-sm font-semibold">
-              8
+              {meta?.totalCount || 0}
             </button>
 
             <button
@@ -96,6 +137,10 @@ const Header = ({ user }) => {
         <Notification
           setShowNotification={setShowNotification}
           notificationRef={notificationRef}
+          meta={meta}
+          notifications={notifications}
+          isLoading={isLoading}
+          handleLoadMore={handleLoadMore}
         />
       )}
       {showCredit && (
