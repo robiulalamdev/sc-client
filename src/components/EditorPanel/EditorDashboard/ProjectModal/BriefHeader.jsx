@@ -14,12 +14,12 @@ const BriefHeader = ({
 }) => {
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
   const { user } = useSelector((state) => state.auth);
-  const handeAccepteJob = async () => {
+  const handeAccepteJob = async (status) => {
     try {
       const formdata = {
         projectId: selectedProject?._id,
         editor: user?._id,
-        status: "In Progress",
+        status: status,
       };
       const res = await updateProject(formdata);
 
@@ -84,13 +84,14 @@ const BriefHeader = ({
         {selectedProject?.status === "Pending" ? (
           <>
             <button
-              onClick={() => setModalPopup(false)}
+              // onClick={() => setModalPopup(false)}
+              onClick={() => handeAccepteJob("Decline")}
               className="text-base font-semibold text-red-600 border border-red-600 py-3 px-6 rounded-full"
             >
               Decline Job
             </button>
             <button
-              onClick={handeAccepteJob}
+              onClick={() => handeAccepteJob("accepted")}
               disabled={isLoading}
               className="text-base font-semibold text-white bg-indigo-600 border border-indigo-600 py-3 px-6 rounded-full"
             >

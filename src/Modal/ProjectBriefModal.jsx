@@ -23,6 +23,8 @@ const ProjectBriefModal = ({
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(null);
 
+  // console.log("selected Project: ", selectedProject);
+
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
 
   const handleSubmitVideo = async () => {
@@ -68,6 +70,7 @@ const ProjectBriefModal = ({
             path: result.data.player_embed_url,
             projectId: selectedProject?._id,
             submitVideo: true,
+            status: "Exported",
           };
 
           const uploadRes = await updateProject(formData);

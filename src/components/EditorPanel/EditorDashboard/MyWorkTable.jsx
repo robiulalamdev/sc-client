@@ -28,8 +28,8 @@ const MyWorkTable = ({ filteredData }) => {
 
   const [selectedProject, setSelectedProject] = useState(null);
 
-  console.log(selectedProject, "selectedProject");
-  console.log(filteredData, "filteredData");
+  // console.log(selectedProject, "selectedProject");
+  // console.log(filteredData, "filteredData");
   const [jobAction, setJobAction] = useState(false);
 
   const [file, setFile] = useState(null);
@@ -70,7 +70,7 @@ const MyWorkTable = ({ filteredData }) => {
     setCurrentPage(pageNumber);
   };
 
-  console.log("paginatedData", paginatedData)
+  // console.log("paginatedData", paginatedData);
 
   return (
     <>
@@ -179,7 +179,11 @@ const MyWorkTable = ({ filteredData }) => {
                           <div className="flex-shrink-0 w-8 h-8">
                             <img
                               className="w-full h-full rounded-full object-cover"
-                              src={tableDataInfo.creator?.image ? tableDataInfo.creator?.image : demoImage  }
+                              src={
+                                tableDataInfo.creator?.image
+                                  ? tableDataInfo.creator?.image
+                                  : demoImage
+                              }
                               alt="img"
                             />
                           </div>
