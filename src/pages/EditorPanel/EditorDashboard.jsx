@@ -36,9 +36,7 @@ const EditorDashboard = () => {
                 </div>
                 <InsightsCard
                   data={myTasks}
-                  myTasks={
-                    myTasks.length
-                  }
+                  myTasks={myTasks.length}
                   newTasks={newTasks.length}
                 />
               </div>
