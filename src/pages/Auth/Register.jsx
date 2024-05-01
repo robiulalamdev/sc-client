@@ -1,19 +1,26 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRegisterMutation } from "../../features/auth/authApi";
-import { useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import loading from "../../assets/loading.svg";
 import logo from "../../assets/new-creating.svg";
 import Swal from "sweetalert2";
+import { useVerifyInviteTokenMutation } from "../../features/helpers/helpersApi";
 
 const Register = () => {
+  const { token } = useParams();
   const [register, { isLoading }] = useRegisterMutation();
+  const [verifyInviteToken] = useVerifyInviteTokenMutation();
 
   const [registering, setRegistering] = useState(false);
+  const [permit, setPermit] = useState(true);
 
   const navigate = useNavigate();
 
+  const emailRef = useRef(null);
+  const roleRef = useRef(null);
+
   const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])(?=.*[a-zA-Z\d!@#$%^&*()_+}{":;'?/>.<,]).{8,}$/;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,6 +83,38 @@ const Register = () => {
     }
   };
 
+  const handleVerifyToken = async () => {
+    const result = await verifyInviteToken({ token: token });
+    if (result?.data?.success && result?.data?.data?.email) {
+      emailRef.current.value = result.data.data.email;
+      emailRef.current.disabled = true;
+      emailRef.current.readonly = true;
+      roleRef.current.value = result?.data?.data?.role;
+      roleRef.current.disabled = true;
+      roleRef.current.readonly = true;
+    } else if (result?.data?.expired) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Token is Expired`,
+      });
+      navigate("/register");
+    }
+  };
+
+  useMemo(() => {
+    if (token) {
+      if (permit) {
+        handleVerifyToken();
+        setPermit(false);
+      } else {
+        return () => {};
+      }
+    } else {
+      return () => {};
+    }
+  }, [token]);
+
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -115,6 +154,7 @@ const Register = () => {
             </label>
             <div className="mt-2">
               <input
+                ref={emailRef}
                 id="email"
                 name="email"
                 type="email"
@@ -158,14 +198,17 @@ const Register = () => {
             </div>
             <div className="mt-2">
               <select
+                ref={roleRef}
                 className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 name="role"
               >
-                <option selected disabled value="USER">
+                <option selected disabled value="">
                   Choose a role
                 </option>
                 <option value="USER">User</option>
                 <option value="EDITOR">Editor</option>
+                <option value="ADMIN">Admin</option>
+                <option value="MANAGER">Account Manager</option>
               </select>
             </div>
           </div>

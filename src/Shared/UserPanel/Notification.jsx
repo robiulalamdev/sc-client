@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
+import { useMemo } from "react";
 import close from "../../assets/close.svg";
+import { useSeenMyNotifyMutation } from "../../features/notifications/notificationsApi";
 import { notificationPics } from "../../utils/data";
 import Loading from "../Loading";
 
@@ -10,7 +12,10 @@ const Notification = ({
   notifications,
   isLoading,
   handleLoadMore,
+  setUnseenTotal,
+  unseenTotal,
 }) => {
+  const [seenMyNotify] = useSeenMyNotifyMutation();
   const formatDateTitle = (date) => {
     const today = new Date();
     const yesterday = new Date();
@@ -28,6 +33,17 @@ const Notification = ({
       return date;
     }
   };
+
+  const handleSeenNotify = async () => {
+    const result = await seenMyNotify({});
+    if (result?.data?.success) {
+      setUnseenTotal(0);
+    }
+  };
+
+  useMemo(() => {
+    handleSeenNotify();
+  }, []);
 
   return (
     <div

@@ -41,6 +41,14 @@ export const router = createBrowserRouter([
       </PublicRoute>
     ),
   },
+  {
+    path: "/register/invite/:token",
+    element: (
+      <PublicRoute>
+        <Register />
+      </PublicRoute>
+    ),
+  },
 
   {
     path: "/user",

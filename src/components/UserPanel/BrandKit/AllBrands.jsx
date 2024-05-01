@@ -81,9 +81,9 @@ const AllBrands = ({ setStep, data = [] }) => {
             <div>
               <p className="text-xl font-bold mb-3">{item?.brandName}</p>
               <p className="text-sm text-slate-500 font-normal">
-                We are platform looking forward to build a collaborative video
-                creation platform for business that will help them to grow on
-                their social media to generate healthy revenues.
+                {item?.brandDescription?.length > 180
+                  ? item?.brandDescription?.slice(0, 180) + "..."
+                  : item?.brandDescription}
               </p>
             </div>
           </div>

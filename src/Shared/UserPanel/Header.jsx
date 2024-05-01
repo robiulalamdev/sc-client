@@ -30,6 +30,7 @@ const Header = ({ user }) => {
 
   const { data, isLoading } = useMyNotificationsQuery(meta);
   const [notifications, setNotifications] = useState([]);
+  const [unseenTotal, setUnseenTotal] = useState(0);
 
   const notificationRef = useRef(null);
   const creditRef = useRef(null);
@@ -53,6 +54,9 @@ const Header = ({ user }) => {
       }
       if (data?.data?.meta_data) {
         setMeta(data?.data?.meta_data);
+      }
+      if (data?.data?.unseen) {
+        setUnseenTotal(data?.data?.unseen);
       }
     }
 
@@ -114,7 +118,7 @@ const Header = ({ user }) => {
             className="relative"
           >
             <button className="absolute -top-1 -right-1 border-2 border-slate-50 bg-red-600 px-[5px] rounded-full text-white text-sm font-semibold">
-              {meta?.totalCount || 0}
+              {unseenTotal || 0}
             </button>
 
             <button
@@ -141,6 +145,8 @@ const Header = ({ user }) => {
           notifications={notifications}
           isLoading={isLoading}
           handleLoadMore={handleLoadMore}
+          setUnseenTotal={setUnseenTotal}
+          unseenTotal={unseenTotal}
         />
       )}
       {showCredit && (

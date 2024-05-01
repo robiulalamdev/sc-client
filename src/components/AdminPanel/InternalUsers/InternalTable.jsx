@@ -4,14 +4,12 @@ import { internalTableHeading } from "../../../utils/data";
 import TableHead from "../../Shared/TableComponent/TableHead/TableHead";
 import InternalUserModal from "../../../Modal/InternalUserModal";
 import { useGetAllClientsQuery } from "../../../features/project/projectApi";
-import defaultImage from "../../../assets/userprofile.png"
-
+import defaultImage from "../../../assets/userprofile.png";
 
 const InternalTable = ({ filteredData }) => {
   const [userModal, setUserModal] = useState(false);
 
   const { data, isLoading } = useGetAllClientsQuery(`clientType=EDITOR`);
-
 
   return (
     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto">
@@ -30,7 +28,9 @@ const InternalTable = ({ filteredData }) => {
                   <div className="flex-shrink-0 w-8 h-8">
                     <img
                       className="w-full h-full rounded-full"
-                      src={tableDataInfo.image ? tableDataInfo.image : defaultImage}
+                      src={
+                        tableDataInfo.image ? tableDataInfo.image : defaultImage
+                      }
                       alt="img"
                     />
                   </div>
@@ -59,8 +59,8 @@ const InternalTable = ({ filteredData }) => {
               </td>
 
               <td className="px-4 py-4 border-b border-[#e5e5e5b3]  text-sm">
-              <p className="text-sm font-normal text-slate-900 whitespace-no-wrap w-full rounded-xl bg-slate-100 py-2 px-3">
-              {tableDataInfo.role}
+                <p className="text-sm font-normal text-slate-900 whitespace-no-wrap w-full rounded-xl bg-slate-100 py-2 px-3">
+                  {tableDataInfo.role}
                 </p>
                 {/* <select
                   onClick={(e) => e.stopPropagation()}
