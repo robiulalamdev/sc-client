@@ -11,11 +11,11 @@ export const brandKitApi = apiSlice.injectEndpoints({
       invalidatesTags: ["brand-kit"],
     }),
 
-    // getProjectDetails: builder.query({
-    //   query: (id) => `/v1/project/${id}`,
-    //   providesTags: ["Project"],
-    // }),
+    myBrandKits: builder.query({
+      query: () => `/v1/brand-Kit/my-kits`,
+      providesTags: ["brand-kit"],
+    }),
   }),
 });
 
-export const { useCreateBrandMutation } = brandKitApi;
+export const { useCreateBrandMutation, useMyBrandKitsQuery } = brandKitApi;

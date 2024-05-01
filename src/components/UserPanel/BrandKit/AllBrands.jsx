@@ -5,12 +5,13 @@ import {
   Plus,
   TextAa,
 } from "@phosphor-icons/react";
-import arrow from "../../../assets/down-arrow.svg";
 import brand from "../../../assets/socreative-brand.svg";
 import { useRef, useState } from "react";
 import useOutsideClick from "../../../hooks/useOutsideClick";
+import useViewFile from "../../../hooks/useViewFile";
 
-const AllBrands = ({ setStep }) => {
+const AllBrands = ({ setStep, data = [] }) => {
+  const { viewImg } = useViewFile();
   const sortRef = useRef();
   const [showSort, setShowSort] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Last Modified");
@@ -64,20 +65,29 @@ const AllBrands = ({ setStep }) => {
       </div>
 
       <div className="grid grid-cols-3 gap-3">
-        <div className="border rounded-3xl p-8 flex items-center gap-8 relative">
-          <button className="absolute top-8 right-8">
-            <DotsThreeOutline size={24} weight="fill" />
-          </button>
-          <img src={brand} alt="" />
-          <div>
-            <p className="text-xl font-bold mb-3">SoCreative</p>
-            <p className="text-sm text-slate-500 font-normal">
-              We are platform looking forward to build a collaborative video
-              creation platform for business that will help them to grow on
-              their social media to generate healthy revenues.
-            </p>
+        {data?.map((item, index) => (
+          <div
+            key={index}
+            className="border rounded-3xl p-8 flex items-center gap-8 relative"
+          >
+            <button className="absolute top-8 right-8">
+              <DotsThreeOutline size={24} weight="fill" />
+            </button>
+            <img
+              src={viewImg(item?.brandLogo) || brand}
+              alt=""
+              className="max-w-[120px] max-h-[120px] min-w-[120px] rounded-full object-contain bg-gray-100"
+            />
+            <div>
+              <p className="text-xl font-bold mb-3">{item?.brandName}</p>
+              <p className="text-sm text-slate-500 font-normal">
+                We are platform looking forward to build a collaborative video
+                creation platform for business that will help them to grow on
+                their social media to generate healthy revenues.
+              </p>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

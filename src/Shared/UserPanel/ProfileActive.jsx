@@ -4,6 +4,7 @@ import active from "../../assets/active.svg";
 const ProfileActive = () => {
   const { user } = useSelector((state) => state.auth);
   const firstLetter = user.name.slice(0, 2);
+
   return (
     <div className="relative">
       {user?.image ? (
