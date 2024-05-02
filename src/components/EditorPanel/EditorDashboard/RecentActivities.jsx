@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 
 const RecentActivities = () => {
   const [activities, setActivities] = useState([]);
-  const { data } = useMyActivitiesQuery(null);
+  const { data, isLoading } = useMyActivitiesQuery(null);
 
   useMemo(() => {
     if (data?.data?.length > 0) {
@@ -14,11 +14,12 @@ const RecentActivities = () => {
     }
   }, [data?.data]);
 
-  console.log("My Activities: ", activities);
+  // console.log("My Activities: ", activities);
   // const repeatedData = Array.from({ length: 5 }, () => RecentActivites).flat();
   return (
     <div className="recent_activities_wrapper border border-slate-200 rounded-2xl h-[650px] overflow-y-scroll no_scrollbar">
-      {activities.length > 0 ? (
+      {activities.length > 0 &&
+        !isLoading &&
         activities.map((activityItem, index) => (
           <div
             className="activity_card flex gap-2 border-b border-b-slate-200 p-[22px]"
@@ -65,10 +66,9 @@ const RecentActivities = () => {
               </p>
             </div>
           </div>
-        ))
-      ) : (
-        <Loading />
-      )}
+        ))}
+
+      {isLoading && <Loading />}
     </div>
   );
 };

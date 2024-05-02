@@ -1,7 +1,11 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import playIcon from "../../../../assets/created.svg";
+import useViewFile from "../../../../hooks/useViewFile";
 
-const ProjectBrandInfo = ({ setEditing, brandKit }) => {
+const ProjectBrandInfo = ({ setEditing, brandKit, brandName, logo }) => {
+  const { viewImg } = useViewFile();
   return (
     <div className="border rounded-xl p-6 mb-6">
       <div className="mb-4">
@@ -15,17 +19,16 @@ const ProjectBrandInfo = ({ setEditing, brandKit }) => {
           </button>
         </div>
         <div className="flex items-center gap-6">
-
-        <div className=" text-[#0F172A] text-[14px] font-[600] flex items-center gap-[8px]  bg-[#F1F5F9] p-[12px] rounded-[8px] border border-[#E2E8F0]">
-          <div className="w-[24px] h-[24px] rounded-full">
-            <img
-              src={playIcon}
-              alt=""
-              className="w-full h-full rounded-full object-contain"
-            />
+          <div className=" text-[#0F172A] text-[14px] font-[600] flex items-center gap-[8px]  bg-[#F1F5F9] p-[12px] rounded-[8px] border border-[#E2E8F0]">
+            <div className="w-[24px] h-[24px] rounded-full">
+              <img
+                src={viewImg(logo) || playIcon}
+                alt=""
+                className="w-full h-full rounded-full object-contain"
+              />
+            </div>
+            <p>{brandName}</p>
           </div>
-          <p>{brandKit}</p>
-        </div>
         </div>
       </div>
     </div>
