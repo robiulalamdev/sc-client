@@ -38,9 +38,7 @@ const BrandkitTable = ({ name, fileName, items = [] }) => {
                       {fileName} {index + 1}
                       {/* Subtitles and SRT Files */}
                     </td>
-                    <td className="px-4 py-3">
-                      Spoken English videos only. Allow up to 24-48 hours.
-                    </td>
+                    <td className="px-4 py-3">No description</td>
                     <td className="px-4 py-3">
                       {" "}
                       <button>
