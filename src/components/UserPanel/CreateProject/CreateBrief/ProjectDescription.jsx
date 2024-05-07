@@ -18,7 +18,7 @@ const ProjectDescription = ({ save, isLoading, projectData }) => {
   const handleContinue = async (activeBrif) => {
     try {
       const res = await save({ ...inputData, projectId: projectData?._id });
-      console.log(res, "resss");
+      // console.log(res, "resss");
       if (res?.error?.error) {
         Swal.fire({
           icon: "error",
@@ -63,7 +63,7 @@ const ProjectDescription = ({ save, isLoading, projectData }) => {
         onChange={handleInputChange}
       ></textarea>
       <button
-        disabled={Object.keys(inputData).length === 0 || isLoading}
+        disabled={isLoading}
         className="primary_btn disabled:bg-indigo-300"
         onClick={() => handleContinue("materials")}
       >
@@ -86,7 +86,7 @@ const ProjectDescription = ({ save, isLoading, projectData }) => {
         onChange={handleInputChange}
       ></textarea>
       <button
-        disabled={Object.keys(inputData).length === 0 || isLoading}
+        disabled={isLoading}
         className="primary_btn disabled:bg-indigo-300"
         onClick={handleContinue}
       >

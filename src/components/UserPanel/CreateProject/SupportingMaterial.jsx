@@ -119,7 +119,8 @@ const SupportingMaterial = ({
       )}
 
       <button
-        disabled={files.length === 0 || isLoading}
+        // disabled={files.length === 0 || isLoading}
+        disabled={isLoading}
         className="primary_btn disabled:bg-indigo-300"
         onClick={() => handleContinue("brandKit")}
       >

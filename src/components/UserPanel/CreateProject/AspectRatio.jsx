@@ -127,7 +127,8 @@ const AspectRatio = ({ save, isLoading, projectData, editing, setEditing }) => {
         </label>
       </div>
       <button
-        disabled={!selectedRatio || isLoading}
+        // disabled={!selectedRatio || isLoading}
+        disabled={isLoading}
         className="primary_btn disabled:bg-indigo-300 mt-6"
         onClick={() => handleContinue("presenter")}
       >

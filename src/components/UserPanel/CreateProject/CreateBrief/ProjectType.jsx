@@ -28,7 +28,7 @@ const ProjectType = ({ save, isLoading, projectData }) => {
     }
   };
 
-  console.log(inputData, "df");
+  // console.log(inputData, "df");
 
   const handleContinue = async (activeBrif) => {
     try {
@@ -140,9 +140,10 @@ const ProjectType = ({ save, isLoading, projectData }) => {
         {isLoading ? "Saving..." : "Continue"}
       </button>
     </div>
-  ) : projectData?.projectTitle &&
-    projectData?.videoType &&
-    projectData?.videoDuration ? (
+  ) : projectData?.projectTitle ? (
+    // &&
+    //   projectData?.videoType &&
+    //   projectData?.videoDuration
     <div className="border rounded-xl p-6 mb-6">
       <div className="flex justify-between items-start gap-6 ">
         <div>
