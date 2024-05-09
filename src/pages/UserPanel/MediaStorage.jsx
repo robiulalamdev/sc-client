@@ -15,6 +15,7 @@ const MediaStorage = () => {
   };
   const [openCreateFolderModal, setOpenCreateFolderModal] = useState(false);
   const [openUploadVideo, setOpedUploadVideoModal] = useState(false);
+  const [CreateDemoInviteProject, setCreateInviteProject] = useState(false);
 
   const { data, isLoading: getingDrive } = useGetUserDriveQuery();
 

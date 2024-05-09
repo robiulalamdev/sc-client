@@ -125,30 +125,30 @@ const UploadFile = () => {
 
               console.log("video id", videoId[1]);
               // Interval to check if the process is done
-              // const interval = setInterval(async () => {
-              //   const res = await fetch(
-              //     ${BASE_API_URL}/v1/vimeo/${videoId[1]}?fields=transcode.status,download,upload.status,is_playable,
-              //     {
-              //       method: "GET",
-              //       headers: {
-              //         "Content-Type": "application/json",
-              //       },
-              //     }
-              //   );
+              const interval = setInterval(async () => {
+                const res = await fetch(
+                  `${BASE_API_URL}/v1/vimeo/${videoId[1]}?fields=transcode.status,download,upload.status,is_playable`,
+                  {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
 
-              //   const result = await res.json();
+                const result = await res.json();
 
-              //   console.log(
-              //     "check the video processing is done or not, ",
-              //     result.data.is_playable
-              //   );
+                console.log(
+                  "check the video processing is done or not, ",
+                  result.data.is_playable
+                );
 
-              //   // Check if the process is done
-              //   if (result.data.is_playable) {
-              //     setIsVimeoProcessDone(false);
-              //     clearInterval(interval); // Clear the interval once process is done
-              //   }
-              // }, 1000);
+                // Check if the process is done
+                if (result.data.is_playable) {
+                  setIsVimeoProcessDone(false);
+                  clearInterval(interval); // Clear the interval once process is done
+                }
+              }, 1000);
             },
           });
 
@@ -177,7 +177,7 @@ const UploadFile = () => {
   return (
     <div
       {...getRootProps({ style: dashedBoxStyle })}
-      className=" text-center mb-10 rounded-xl relative"
+      className="text-center mb-10 rounded-xl relative"
     >
       {/* {isUploading && (
         <UploadProgress
